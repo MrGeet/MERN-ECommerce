@@ -1,0 +1,30 @@
+{
+	"name": "mern-ecommerce",
+	"version": "1.0.0",
+	"description": "Shopping cart app",
+	"main": "server.js",
+	"scripts": {
+		"start": "node backend/server",
+		"server": "nodemon backend/server",
+		"client": "npm start --prefix front-end",
+		"dev": "concurrently \"yarn run server\" \"yarn run client\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MrGeet/MERN-ECommerce.git"
+	},
+	"author": "Aldar",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/MrGeet/MERN-ECommerce/issues"
+	},
+	"homepage": "https://github.com/MrGeet/MERN-ECommerce#readme",
+	"dependencies": {
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"concurrently": "^5.3.0",
+		"nodemon": "^2.0.7"
+	}
+}
