@@ -78,4 +78,17 @@ const products = [
 		numReviews: 12,
 	},
 ];
-module.exports = products;
+
+// "MONGO_ATLAS_PW": "8zVTnKUPus9eocPU",
+// "JWT_KEY": "secret"
+
+// mongoose.connect(
+// 	'mongodb+srv://testuser:' + process.env.MONGO_ATLAS_PW + '@rest.wya9c.mongodb.net/test?retryWrites=true&w=majority',
+// 	{
+// 		useNewUrlParser: true,
+// 		useUnifiedTopology: true,
+// 		useCreateIndex: true,
+// 	}
+// );
+
+export default products;
