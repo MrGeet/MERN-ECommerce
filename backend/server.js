@@ -12,7 +12,7 @@ connectDB();
 const app = express();
 
 app.get('/', (req, res) => {
-	res.send('RUNNING API LOL');
+	res.send('RUNNING API HAHAHA');
 });
 
 app.use('/api/products', productRoutes);
