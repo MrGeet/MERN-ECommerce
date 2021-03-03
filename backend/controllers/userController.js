@@ -91,7 +91,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		if (req.body.password) {
 			user.password = req.body.password;
 		}
-
 		const updatedUser = await user.save();
 
 		res.json({
@@ -104,15 +103,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 	} else {
 		res.status(404);
 		throw new Error('User not found');
-	}
-
-	if (user) {
-		res.json({
-			_id: user._id,
-			name: user.name,
-			email: user.email,
-			isAdmin: user.isAdmin,
-		});
 	}
 });
 
