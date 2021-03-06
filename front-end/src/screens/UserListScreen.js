@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
-import { listUsers } from '../actions/userActions';
+import { listUsers, removeUser } from '../actions/userActions';
 
 const UserListScreen = ({ history }) => {
 	const dispatch = useDispatch();
@@ -15,6 +15,9 @@ const UserListScreen = ({ history }) => {
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
+	const userRemove = useSelector((state) => state.userRemove);
+	const { success: successRemove } = userRemove;
+
 	useEffect(() => {
 		console.log(userInfo);
 		if (userInfo && userInfo.isAdmin) {
@@ -22,9 +25,17 @@ const UserListScreen = ({ history }) => {
 		} else {
 			history.push('/login');
 		}
-	}, [dispatch, history]);
+	}, [dispatch, history, successRemove]);
 
-	const deleteHandler = () => {};
+	const deleteHandler = (id) => {
+		if (
+			window.confirm(
+				'This action will permanently remove the user from the database, are you sure?'
+			)
+		) {
+			dispatch(removeUser(id));
+		}
+	};
 
 	console.log(userList);
 
