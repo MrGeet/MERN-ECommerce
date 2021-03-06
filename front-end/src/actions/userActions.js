@@ -20,6 +20,9 @@ import {
 	USER_REMOVE_SUCCESS,
 	USER_REMOVE_FAIL,
 	USER_REMOVE_REQUEST,
+	USER_EDIT_REQUEST,
+	USER_EDIT_SUCCESS,
+	USER_EDIT_FAIL,
 } from '../constants/userConstants';
 import { ORDER_USER_LIST_RESET } from '../constants/orderConstants';
 import axios from 'axios';
@@ -219,6 +222,42 @@ export const removeUser = (id) => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: USER_REMOVE_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const editUser = (user) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: USER_EDIT_REQUEST,
+		});
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+		const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+
+		dispatch({
+			type: USER_EDIT_SUCCESS,
+		});
+		dispatch({
+			type: USER_DETAILS_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: USER_EDIT_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
