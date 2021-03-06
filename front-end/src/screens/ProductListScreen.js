@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
-import { listUsers, removeUser } from '../actions/userActions';
+import { listProducts } from '../actions/productActions';
 
-const UserListScreen = ({ history }) => {
+const ProductListScreen = ({ history, match }) => {
 	const dispatch = useDispatch();
 
-	const userList = useSelector((state) => state.userList);
-	const { loading, error, users } = userList;
+	const productList = useSelector((state) => state.productList);
+	const { loading, error, products } = productList;
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
-	const userRemove = useSelector((state) => state.userRemove);
-	const { success: successRemove } = userRemove;
-
 	useEffect(() => {
-		console.log(userInfo);
 		if (userInfo && userInfo.isAdmin) {
-			dispatch(listUsers());
+			dispatch(listProducts());
 		} else {
 			history.push('/login');
 		}
-	}, [dispatch, history, successRemove, userInfo]);
+	}, [dispatch, history, userInfo]);
 
 	const deleteHandler = (id) => {
 		if (
@@ -33,15 +29,24 @@ const UserListScreen = ({ history }) => {
 				'This action will permanently remove the user from the database, are you sure?'
 			)
 		) {
-			dispatch(removeUser(id));
+			//TO DELETE
 		}
 	};
 
-	console.log(userList);
+	const createProductHandler = () => {};
 
 	return (
 		<>
-			<h1>Users</h1>
+			<Row className="align-items-center">
+				<Col>
+					<h1>Products</h1>
+				</Col>
+				<Col className="text-right">
+					<Button className="my-3" onClick={createProductHandler}>
+						<i className="fas fa-plus"></i> Create Product
+					</Button>
+				</Col>
+			</Row>
 			{loading ? (
 				<Loader />
 			) : error ? (
@@ -52,28 +57,22 @@ const UserListScreen = ({ history }) => {
 						<tr>
 							<th>Id</th>
 							<th>Name</th>
-							<th>Email</th>
-							<th>Admin</th>
+							<th>Price</th>
+							<th>Category</th>
+							<th>Brand</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						{users.map((user) => (
-							<tr key={user._id}>
-								<td>{user._id}</td>
-								<td>{user.name}</td>
+						{products.map((product) => (
+							<tr key={product._id}>
+								<td>{product._id}</td>
+								<td>{product.name}</td>
+								<td>${product.price}</td>
+								<td>{product.category}</td>
+								<td>{product.brand}</td>
 								<td>
-									<a href={`mailto${user.email}`}>{user.isAdmin}</a>
-								</td>
-								<td>
-									{user.isAdmin ? (
-										<i className="fas fa-check" style={{ color: 'green' }}></i>
-									) : (
-										<i className="fas fa-times" style={{ color: 'red' }}></i>
-									)}
-								</td>
-								<td>
-									<LinkContainer to={`/admin/user/${user._id}/edit`}>
+									<LinkContainer to={`/admin/product/${product._id}/edit`}>
 										<Button variant="dark" className="btn-sm">
 											<i className="fas fa-edit"></i>
 										</Button>
@@ -81,7 +80,7 @@ const UserListScreen = ({ history }) => {
 									<Button
 										variant="danger"
 										className="btn-sm"
-										onClick={() => deleteHandler(user._id)}
+										onClick={() => deleteHandler(product._id)}
 									>
 										<i className="fas fa-trash"></i>
 									</Button>
@@ -95,4 +94,4 @@ const UserListScreen = ({ history }) => {
 	);
 };
 
-export default UserListScreen;
+export default ProductListScreen;
