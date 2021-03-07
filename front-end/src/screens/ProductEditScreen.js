@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetails, editProduct } from '../actions/productActions';
+import { PRODUCT_EDIT_RESET } from '../constants/productConstants';
 
 const ProductEditScreen = ({ match, history }) => {
 	const productId = match.params.id;
@@ -23,22 +24,42 @@ const ProductEditScreen = ({ match, history }) => {
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, error, product } = productDetails;
 
+	const productEdit = useSelector((state) => state.productEdit);
+	const { loading: loadingEdit, error: errorEdit, success: successEdit } = productEdit;
+
 	useEffect(() => {
-		if (!product.name || product._id !== productId) {
-			dispatch(listProductDetails(productId));
+		if (successEdit) {
+			dispatch({ type: PRODUCT_EDIT_RESET });
+			history.push('/admin/productlist');
 		} else {
-			setName(product.name);
-			setPrice(product.price);
-			setImage(product.image);
-			setBrand(product.brand);
-			setCategory(product.category);
-			setCountInStock(product.countInStock);
-			setDescription(product.description);
+			if (!product.name || product._id !== productId) {
+				dispatch(listProductDetails(productId));
+			} else {
+				setName(product.name);
+				setPrice(product.price);
+				setImage(product.image);
+				setBrand(product.brand);
+				setCategory(product.category);
+				setCountInStock(product.countInStock);
+				setDescription(product.description);
+			}
 		}
-	}, [product, dispatch, productId]);
+	}, [product, dispatch, productId, successEdit, history]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
+		dispatch(
+			editProduct({
+				_id: productId,
+				name,
+				price,
+				brand,
+				category,
+				image,
+				description,
+				countInStock,
+			})
+		);
 	};
 
 	return (
@@ -48,7 +69,8 @@ const ProductEditScreen = ({ match, history }) => {
 			</Link>
 			<FormContainer>
 				<h1>Edit Product</h1>
-
+				{loadingEdit && <Loader />}
+				{errorEdit && <Message variant="danger">{errorEdit}</Message>}
 				{loading ? (
 					<Loader />
 				) : error ? (
