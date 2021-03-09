@@ -124,13 +124,23 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 			payload: data,
 		});
 	} catch (error) {
-		dispatch({
-			type: USER_DETAILS_FAIL,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.message,
-		});
+		console.log(error.response.status);
+		console.log(error.response.data.message);
+		if (
+			error.response.status === 401 &&
+			error.response.data.message ===
+				'Not authorized, token failedTokenExpiredError: jwt expired'
+		) {
+			dispatch(logout());
+		} else {
+			dispatch({
+				type: USER_DETAILS_FAIL,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
 	}
 };
 
