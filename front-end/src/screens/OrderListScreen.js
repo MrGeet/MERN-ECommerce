@@ -75,7 +75,7 @@ const UserListScreen = ({ history }) => {
 								</td>
 								<td>
 									{order.isDelivered ? (
-										<i className="fas fa-check" style={{ color: 'green' }}></i>
+										order.deliveredAt.substring(0, 10)
 									) : (
 										<i className="fas fa-times" style={{ color: 'red' }}></i>
 									)}
