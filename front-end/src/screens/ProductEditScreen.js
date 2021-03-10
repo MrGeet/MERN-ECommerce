@@ -66,7 +66,8 @@ const ProductEditScreen = ({ match, history }) => {
 
 			const { data } = await axios.post('/api/upload', formData, config);
 
-			setImage(data);
+			//It sets backslash as default, when the search happens, forward slash is required in front of the filename
+			setImage(`/${data.replaceAll('\\', '/')}`);
 
 			setUploading(false);
 		} catch (error) {

@@ -155,7 +155,7 @@ const ProductScreen = ({ history, match }) => {
 									)}
 									{userInfo ? (
 										<Form onSubmit={submitHandler}>
-											<Form.Group controlOd="rating">
+											<Form.Group controlId="rating">
 												<Form.Label>Rating</Form.Label>
 												<Form.Control
 													as="select"
