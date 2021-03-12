@@ -26,24 +26,40 @@ h2{
 .carousel-item.active {
   display: flex;
   justify-content: center;
+  background-color: 		#383838;
+}
+.carousel img {
+  height: 350px;
+  padding: 30px;
+  margin: 10px auto;
+  border-radius: 10%;
+}
 
+.carousel img {
+  height: 350px;
+  /* padding: 30px; */
+  /* margin-left: auto; */
+  margin: 30px auto 10px;
+  border-radius: 20%;
+}
+
+.carousel-caption h2 {
+  color: 	#fefefe;
 }
 .carousel-caption {
   position: absolute;
   top: 0;
 }
 
-.carousel-caption h2 {
-  color: #fff;
+.carousel-control-next-icon, .carousel-control-prev-icon{
+  height: 300px;
+  width: 300px;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  background-image: none;
 }
 
-.carousel img {
-  /* position: absolute; */
-  height: 300px;
-  padding: 30px;
-  margin: 40px auto;
-  border-radius: 50%;
-}
+
 .carousel a {
   margin: 0 auto;
   width: 50px;
